@@ -9,7 +9,7 @@ import { useState } from 'react';
 import Login from './Components/Login';
 
 function App() {
-  const [token, setToken] = useState();
+  const [token, setToken] = useState('');
 
   if(!token) {
     return <Login setToken={setToken}/>

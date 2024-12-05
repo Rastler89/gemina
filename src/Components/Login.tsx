@@ -1,11 +1,15 @@
 import { Button, Container, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 
-const Login = ({setToken}) => {
+interface LoginProps<T> {
+    setToken: (token: T) => void;
+}
+
+const Login: React.FC<LoginProps<string>> = ({setToken}) => {
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
         if(email==="Gemina" && password === "test") {
             setToken("123456");
