@@ -7,12 +7,13 @@ import Footer from './Components/Footer';
 import { Box, CssBaseline } from '@mui/material';
 import { useState } from 'react';
 import Login from './Components/Login';
+import { AuthLocal } from './Services/AuthLocal';
 
 function App() {
-  const [token, setToken] = useState('');
+  const [logged,setLogged] = useState('no')
 
-  if(!token) {
-    return <Login setToken={setToken}/>
+  if(!AuthLocal.isLogged() && logged === 'no') {
+    return <Login setLogged={setLogged}/>
   }
 
   return (

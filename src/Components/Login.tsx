@@ -1,18 +1,20 @@
 import { Button, Container, TextField, Typography } from "@mui/material";
 import { useState } from "react";
+import { AuthLocal } from "../Services/AuthLocal";
 
 interface LoginProps<T> {
-    setToken: (token: T) => void;
+    setLogged: (token: T) => void;
 }
 
-const Login: React.FC<LoginProps<string>> = ({setToken}) => {
+const Login: React.FC<LoginProps<string>> = ({setLogged}) => {
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
 
     const handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
         if(email==="Gemina" && password === "test") {
-            setToken("123456");
+            AuthLocal.setToken("123456");
+            setLogged('yes');
         }
     }
 
