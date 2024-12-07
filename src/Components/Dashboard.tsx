@@ -27,6 +27,7 @@ interface MenuItem {
 const menuItems: MenuItem[] = [
   { name: 'Inicio', icon: <Home />, url: '/' },
   { name: 'Moldes', icon: <Factory />, url: '/casts' },
+  { name: 'Materiales', icon: <Factory />, url: '/materials'},
 ];
 
 const openedMixin = (theme: Theme): CSSObject => ({

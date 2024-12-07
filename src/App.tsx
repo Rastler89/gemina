@@ -8,6 +8,7 @@ import { Box, CssBaseline } from '@mui/material';
 import { useState } from 'react';
 import Login from './Components/Login';
 import { AuthLocal } from './Services/AuthLocal';
+import Materials from './Pages/Materials';
 
 function App() {
   const [logged,setLogged] = useState('no')
@@ -25,6 +26,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/casts" element={<Casts />} />
+            <Route path="/materials" element={<Materials />}/>
           </Routes>
         </BrowserRouter>
 
