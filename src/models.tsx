@@ -3,3 +3,8 @@ export interface Cast {
     title: string;
     description: string;
 }
+
+export interface Material {
+    id: number;
+    name: string;
+}
