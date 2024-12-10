@@ -2,3 +2,29 @@ body {
     padding: 0;
     margin: 0;
 }
+
+.fabProgress {
+    color: green;
+    position: absolute;
+    top: 6;
+    left: 6;
+    z-index: 1;
+}
+
+div > div.supabase-auth-ui_ui-container:first-child > button, .supabase-auth-ui_ui-divider {
+    display: none !important;
+}
+
+#auth-sign-in {
+    position: relative;
+}
+
+#auth-sign-in > .supabase-auth-ui_ui-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    width: 50vw;
+}
