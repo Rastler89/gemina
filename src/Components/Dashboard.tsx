@@ -155,7 +155,7 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {menuItems.map((item, index) => (
+          {menuItems.map((item) => (
             <ListItem key={item.name} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 component="a"
