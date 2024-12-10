@@ -1,6 +1,6 @@
-import { Delete, Edit, Save } from "@mui/icons-material";
-import { Button, CircularProgress, IconButton, Paper } from "@mui/material";
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { Delete, Save } from "@mui/icons-material";
+import { CircularProgress, IconButton, Paper } from "@mui/material";
+import { DataGrid } from '@mui/x-data-grid';
 
 import { useEffect, useState } from "react";
 import { supabase } from "../Services/RastGest";
@@ -8,10 +8,6 @@ import { Material } from "../models";
 
 
 const paginationModel = { page: 0, pageSize: 10};
-
-const rows = [
-    { id: '1', name: 'prova'}
-]
 
 const Materials = () => {
     const [loading, setLoading] = useState(-1);
