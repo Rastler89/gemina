@@ -1,10 +1,11 @@
-import { Delete, Save } from "@mui/icons-material";
-import { CircularProgress, IconButton, Paper } from "@mui/material";
-import { DataGrid } from '@mui/x-data-grid';
+import { Add, Delete, Save } from "@mui/icons-material";
+import { Button, CircularProgress, IconButton, Modal, Paper, Tooltip } from "@mui/material";
+import { DataGrid, GridToolbarColumnsButton, GridToolbarContainer } from '@mui/x-data-grid';
 
 import { useEffect, useState } from "react";
 import { supabase } from "../Services/RastGest";
 import { Material } from "../models";
+import ConfirmDialog from "../Elements/ConfirmDialog";
 
 
 const paginationModel = { page: 0, pageSize: 10};
@@ -12,6 +13,8 @@ const paginationModel = { page: 0, pageSize: 10};
 const Materials = () => {
     const [loading, setLoading] = useState(-1);
     const [materials, setMaterials] = useState<Material[]>([]);
+    const [open, setOpen] = useState(false);
+    const [element, setElement] = useState(0);
 
     useEffect(() => {
         getMaterials();
@@ -22,8 +25,51 @@ const Materials = () => {
         setMaterials(data as Material[]);
     }
 
+    async function updateMaterial(id: Number, name: string) {
+        if(id==0) {
+            const {data} = await supabase.from('Materials')
+                .insert([{name:name}])
+                .select();
+
+            console.log(data);
+
+        } else {
+            const {data} = await supabase.from('Materials')
+                .update({name: name})
+                .eq('id',id)
+                .select();
+            console.log(data);
+        }
+        setLoading(-1);
+
+    }
+
+    const handleDelete = async () => {
+        const {error} = await supabase.from('Materials').delete().eq('id',element);
+        if(error) {
+            console.log(error);
+        } else {
+            setMaterials(materials.filter(material => material.id !== element));
+        }
+        setOpen(false);
+    }
+
     return (
         <>
+            <div style={{display:'flex', justifyContent:'flex-end', padding: 5}}>
+                <Tooltip title='Agregar material'>
+                    <IconButton
+                        aria-label='add'
+                        color='primary'
+                        size='large'
+                        onClick={() => {
+                            setMaterials([...materials,{id:0,name:''}]);
+                        }}
+                    >
+                        <Add />
+                    </IconButton>
+                </Tooltip>
+            </div>
             <Paper sx={{width:'100%'}}>
                 <DataGrid
                     rows={materials}
@@ -35,14 +81,11 @@ const Materials = () => {
                                 return (
                                     <div>
                                         <IconButton
-                                            aria-label="edit"
+                                            aria-label="save"
                                             disabled={loading==params.id}
                                             onClick={() => {
                                                 setLoading(Number(params.id));
-                                                console.log()
-                                                setTimeout(() => {
-                                                    setLoading(-1);
-                                                },10000);
+                                                updateMaterial(params.row.id,params.row.name);
                                             }}
                                         >
                                             <Save />
@@ -53,7 +96,13 @@ const Materials = () => {
                                                 />
                                             )}
                                         </IconButton>
-                                        <IconButton aria-label="delete">
+                                        <IconButton 
+                                            aria-label="delete"
+                                            onClick={() => {
+                                                setOpen(true);
+                                                setElement(params.row.id);
+                                            }}
+                                        >
                                             <Delete />
                                         </IconButton>
                                     </div>
@@ -65,6 +114,12 @@ const Materials = () => {
                     pageSizeOptions={[5,10]}
                     sx={{border:0}}/>
             </Paper>
+            {/* Dialog confirmación */ }
+            <ConfirmDialog 
+                open={open}
+                setOpen={setOpen}
+                handleDelete={handleDelete}
+            />
         </>
     )
 }

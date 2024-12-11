@@ -143,7 +143,7 @@ export default function MiniDrawer() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Mini variant drawer
+            Gemina - Tu gestor de joyeria
           </Typography>
         </Toolbar>
       </AppBar>
