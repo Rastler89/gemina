@@ -1,20 +1,22 @@
 import { Add, Delete, Save } from "@mui/icons-material";
 import { Button, CircularProgress, IconButton, Modal, Paper, Tooltip } from "@mui/material";
-import { DataGrid, GridToolbarColumnsButton, GridToolbarContainer } from '@mui/x-data-grid';
 
 import { useEffect, useState } from "react";
 import { supabase } from "../Services/RastGest";
 import { Material } from "../models";
 import ConfirmDialog from "../Elements/ConfirmDialog";
-
-
-const paginationModel = { page: 0, pageSize: 10};
+import DataTable from "../Elements/DataTable";
 
 const Materials = () => {
     const [loading, setLoading] = useState(-1);
     const [materials, setMaterials] = useState<Material[]>([]);
     const [open, setOpen] = useState(false);
     const [element, setElement] = useState(0);
+
+    const columns = [
+        { field: 'id', headerName: 'ID', width: 70 },
+        { field: 'name', headerName: 'Name', editable: true, width: 250 }
+    ];
 
     useEffect(() => {
         getMaterials();
@@ -25,7 +27,9 @@ const Materials = () => {
         setMaterials(data as Material[]);
     }
 
-    async function updateMaterial(id: Number, name: string) {
+    async function updateMaterial(row: any) {
+        const {id,name} = row;
+
         if(id==0) {
             const {data} = await supabase.from('Materials')
                 .insert([{name:name}])
@@ -70,50 +74,15 @@ const Materials = () => {
                     </IconButton>
                 </Tooltip>
             </div>
-            <Paper sx={{width:'100%'}}>
-                <DataGrid
-                    rows={materials}
-                    columns={[
-                        { field: 'id', headerName: 'ID', width: 70 },
-                        { field: 'name', headerName: 'Name', editable: true, width: 250 },
-                        { field: 'actions', headerName: 'Acciones',
-                            renderCell: (params) => {
-                                return (
-                                    <div>
-                                        <IconButton
-                                            aria-label="save"
-                                            disabled={loading==params.id}
-                                            onClick={() => {
-                                                setLoading(Number(params.id));
-                                                updateMaterial(params.row.id,params.row.name);
-                                            }}
-                                        >
-                                            <Save />
-                                            {loading==params.id && (
-                                                <CircularProgress
-                                                    size={38}
-                                                    className='fabProgress'
-                                                />
-                                            )}
-                                        </IconButton>
-                                        <IconButton 
-                                            aria-label="delete"
-                                            onClick={() => {
-                                                setOpen(true);
-                                                setElement(params.row.id);
-                                            }}
-                                        >
-                                            <Delete />
-                                        </IconButton>
-                                    </div>
-                                )
-                            }
-                        }
-                    ]}
-                    initialState={{pagination:{paginationModel}}}
-                    pageSizeOptions={[5,10]}
-                    sx={{border:0}}/>
-            </Paper>
+            <DataTable
+                rows={materials}
+                columns={columns}
+                loading={loading}
+                setElement={setElement}
+                update={updateMaterial}
+                setLoading={setLoading}
+                setOpen={setOpen}
+            />
             {/* Dialog confirmación */ }
             <ConfirmDialog 
                 open={open}
