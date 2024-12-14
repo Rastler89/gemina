@@ -1,4 +1,4 @@
-import { Delete, Save } from "@mui/icons-material";
+import { Delete, Save, Visibility } from "@mui/icons-material";
 import { CircularProgress, IconButton, Paper } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
@@ -10,6 +10,7 @@ interface DataTableProps {
     update: (arg0: any) => void;
     setLoading: (loading: number) => void;
     setOpen: (open:boolean) => void;
+    profile: boolean;
 }
 
 const DataTable: React.FC<DataTableProps> = ({
@@ -19,7 +20,8 @@ const DataTable: React.FC<DataTableProps> = ({
     setElement,
     update,
     setLoading,
-    setOpen
+    setOpen,
+    profile
 }) => {
     const paginationModel = { page: 0, pageSize: 10};
 
@@ -49,6 +51,13 @@ const DataTable: React.FC<DataTableProps> = ({
                                             />
                                         )}
                                     </IconButton>
+                                    {profile &&
+                                    <IconButton
+                                        aria-label="details"
+                                    >
+                                        <Visibility />
+                                    </IconButton>
+                                    }
                                     <IconButton 
                                         aria-label="delete"
                                         onClick={() => {

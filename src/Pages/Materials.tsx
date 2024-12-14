@@ -23,7 +23,7 @@ const Materials = () => {
     }, []);
 
     async function getMaterials() {
-        const {data} = await supabase.from("Materials").select('*');
+        const {data} = await supabase.from('Materials').select('*');
         setMaterials(data as Material[]);
     }
 
@@ -82,6 +82,7 @@ const Materials = () => {
                 update={updateMaterial}
                 setLoading={setLoading}
                 setOpen={setOpen}
+                profile={false}
             />
             {/* Dialog confirmación */ }
             <ConfirmDialog 
