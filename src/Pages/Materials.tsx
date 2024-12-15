@@ -82,7 +82,6 @@ const Materials = () => {
                 update={updateMaterial}
                 setLoading={setLoading}
                 setOpen={setOpen}
-                profile={false}
             />
             {/* Dialog confirmación */ }
             <ConfirmDialog 

@@ -1,6 +1,7 @@
 import { Delete, Save, Visibility } from "@mui/icons-material";
 import { CircularProgress, IconButton, Paper } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import { Link } from "react-router-dom";
 
 interface DataTableProps {
     rows: any[];
@@ -10,7 +11,7 @@ interface DataTableProps {
     update: (arg0: any) => void;
     setLoading: (loading: number) => void;
     setOpen: (open:boolean) => void;
-    profile: boolean;
+    profile?: boolean;
 }
 
 const DataTable: React.FC<DataTableProps> = ({
@@ -21,7 +22,7 @@ const DataTable: React.FC<DataTableProps> = ({
     update,
     setLoading,
     setOpen,
-    profile
+    profile=false
 }) => {
     const paginationModel = { page: 0, pageSize: 10};
 
@@ -31,7 +32,7 @@ const DataTable: React.FC<DataTableProps> = ({
                 rows={rows}
                 columns={[
                     ...columns,
-                    { field: 'actions', headerName: 'Acciones',
+                    { field: 'actions', width: '140', headerName: 'Acciones',
                         renderCell: (params) => {
                             return (
                                 <div>
@@ -54,6 +55,8 @@ const DataTable: React.FC<DataTableProps> = ({
                                     {profile &&
                                     <IconButton
                                         aria-label="details"
+                                        component={Link}
+                                        to={''+params.row.id}
                                     >
                                         <Visibility />
                                     </IconButton>

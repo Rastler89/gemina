@@ -11,6 +11,7 @@ import { supabase } from './Services/RastGest';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 import { Session } from '@supabase/supabase-js';
+import CastDetail from './Pages/Details/CastDetail';
 
 function App() {
   const [session, setSession] = useState<Session>();
@@ -38,6 +39,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/casts" element={<Casts />} />
               <Route path="/materials" element={<Materials />}/>
+              <Route path="/casts/:castId" element={<CastDetail />}/>
             </Routes>
           </BrowserRouter>
   
